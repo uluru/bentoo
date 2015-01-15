@@ -1,0 +1,53 @@
+<% 
+  today=new Date();
+  var year=today.getFullYear();
+  var month=today.getMonth();
+  var day=today.getDate();
+  if ((year%4 == 0 && year%100 != 0) || (year%400 == 0)) {
+      leap_year=true;
+  } else {
+    leap_year = false;    
+  }
+  var lom=[31,28 + leap_year,31,30,31,30,31,31,30,31,30,31];
+  var dow=["日","月","火","水","木","金","土"];
+  
+  var days=0;
+  for (var i=0; i < month; i++) {
+    days+=lom[i];
+  }  
+  var week=Math.floor((year * 365.2425 + days) % 7);
+  var j=0;
+  var when=year+"年 "+(month+1)+"月";
+  %>
+  <table class="table table-bordered" summary="<%= when %>のカレンダー">
+  <caption><%= when %></caption>
+  <tr>
+  <%
+  for (i=0; i < 7; i++) {
+  %>
+      <td><%= dow[i] %></td>
+<% } %>
+  </tr>
+  <tr>
+  <% 
+  for (i=0; i < week; i++,j++){ 
+  %>
+      <td></td>
+  <% }  %>
+  <% for (i=1; i <= lom[month]; i++) { %>
+    <td <% 
+    if (day == i) { %> class="today" <% } %>>
+    <a href="?year=<%= year %>&month=<%= month %>&day=<%= i %>"><%= i %></a>
+    </td>
+    <% j++;
+    if (j > 6) { %> 
+        </tr><tr>
+      <% 
+      j=0;
+      } 
+    }
+  for (i=j; i > 6; i++){ %>
+      <td></td>
+  <% }  %>
+  </tr></table>
+

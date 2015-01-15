@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <h4 class="modal-title" id="myModalLabel"><%= title %></h4>
+</div>
+<div class="modal-body">
+    <form method="POST" action="/<%= action %>">
+ <fieldset>
+  <p><label>品名</label>
+<% 
+  if (!items) {
+%>
+  <input type="text" name="text" value=""> /
+  <input type="text" name="price" value=""> 円
+  <input type="hidden" name="created" value="<%= created %>">
+  <input type="hidden" name="year" value="<%= year %>">
+  <input type="hidden" name="month" value="<%= month %>">
+  <input type="hidden" name="day" value="<%= day %>">
+<%
+} else { 
+items.forEach(function(item){ %>
+  <input type="text" name="text" value="<%= item.text %>"> /
+  <input type="text" name="price" value="<%= item.price %>"> 円
+  <ul>注文している人
+  <% 
+  item.order_user.forEach(function(user){ %>
+    <li>
+    <%= user %><a href="deleteOrder?user=<%= user %>&id=<%= item.id %>">X</a>
+    </li>
+    <% 
+  })
+  %>
+  </ul>
+  <input type="hidden" name="id" value="<%= item.id %>">
+  <input type="hidden" name="year" value="<%= year %>">
+  <input type="hidden" name="month" value="<%= month %>">
+  <input type="hidden" name="day" value="<%= day %>">
+<% })
+} %>
+ </p>
+ </fieldset>
+ <input type="submit" value="Post">
+</form>
+</div>
+
+

@@ -1,0 +1,113 @@
+<% include ../views/head %>
+<!-- Begin page content -->
+<div class="container" style=" margin-top: 60px; ">
+    <h1><%= year + "年" + (parseInt(month) + 1 ) + "月" + day + "日" %> <%= title %></h1>
+    <p style="color:red;">※ 以下を当日(<%= year + "年" + (parseInt(month) + 1 ) + "月" + day + "日" %>) 17:00までに予約してください。翌日(<%= year + "年" + (parseInt(month) + 1 ) + "月" + (parseInt(day) + 1) + "日" %>)に配達されます。</p>
+    <div class="row" style=" margin-top:-15px; ">
+        <div class="col-md-9">
+            <div class="table-responsive" style=" margin-top: 35px; ">
+                <table class="table table-hover">
+                    <tr>
+                        <th>品名</th>
+                        <th>値段</th>
+                        <th>注文している人</th>
+                        <th>注文数(個数)</th>
+                        <th>機能</th>
+                    </tr>
+                    <% 
+                    var i = 0;
+                    items.forEach(function(item){    
+                    var num = 0;
+                    %>
+                    <tr>
+                        <td><a href="form?id=<%= item.id %>&year=<%= year %>&month=<%= month %>&day=<%= day %>" data-toggle="modal" data-target="#myModal<%= i %>"><%= item.text %></a> </td>
+                        <td><%= item.price %>円 </td>
+                        <td>
+                            <ul>
+                                <% item.order_user.forEach(function(user){ 
+                                num ++;
+                                %>
+                                <li><%= user %></li>
+                                <% }) %>
+                            </ul>
+                        </td>
+                        <td><%= num %></td>
+                        <td><% if(todayFlg){ %>
+<a href="delete?id=<%= item.id %>&year=<%= year %>&month=<%= month %>&day=<%= day %>">削除</a><% } %></td>
+                    </tr>
+                    <!-- Modal -->
+                    <div class="modal fade" id="myModal<%= i %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                            </div>
+                        </div>
+                    </div>
+                    <% 
+                    i ++ ;
+                    }) %>
+                </table>
+                <% if(todayFlg){ %>
+                <p><a href="/form?year=<%= year %>&month=<%= month %>&day=<%= day %>" data-toggle="modal" data-target="#newEntry">New Entry</a></p>
+                <!-- Modal -->
+                <div class="modal fade" id="newEntry" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <!--               
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                            </div>
+                            <div class="modal-body">
+                            </div>
+                            -->
+                        </div>
+                    </div>
+                </div>
+                <% } %>
+            </div>
+            </div>
+            <div class="col-md-3">
+            <% include ../views/cal %> 
+            <table class="table">
+            <% menuItems.forEach(function(menu){ %>
+                    <tr>
+                    <td><%= menu.text %></td>
+                    <td><%= menu.price %>円</td>
+                    <form action="/create" method="POST">
+                    <input type="hidden" name="text" value="<%= menu.text %>">
+                    <input type="hidden" name="price" value="<%= menu.price %>">
+                    <input type="hidden" name="created" value="<%= new Date(year, month, day) %>">
+                    <input type="hidden" name="year" value="<%= year %>">
+                    <input type="hidden" name="month" value="<%= month %>">
+                    <input type="hidden" name="day" value="<%= day %>">
+                    <td><input type="submit" value="追加"></td>
+                    </form>
+                    </tr>
+                    <% }) %>
+            </table>
+            </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!--               
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                </div>
+                <div class="modal-body">
+                </div>
+                -->
+            </div>
+        </div>
+    </div>
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="/javascripts/modal.js"></script>
+
+</body>
+</html>
+

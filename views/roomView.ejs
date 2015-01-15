@@ -1,0 +1,9 @@
+<h1><%= title %></h1>
+<p><a href="/room">roomView</a></p>
+<ul>
+<% items.forEach(function(item){ %>
+  <li>
+  <%= item.message_id %> / <%= item.account.name %> / <%= item.body %>
+  </li>
+<% }) %>
+</ul>
