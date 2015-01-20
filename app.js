@@ -47,6 +47,7 @@ app.use('/deleteMenu', routes);
 app.use('/room', routes);
 
 //cron
+
 var myCron = require('cron').CronJob;
 var room_id = "---";
 var Token = "---";
@@ -75,7 +76,7 @@ var job = new myCron(
               var confirmText = "[To:" + item.account.account_id + "]" + "受付時間外です。17:00までに注文してください。";
               //注文処理
               var options = {
-                url: 'https://api.chatwork.com/v1/rooms/27496495/messages',
+                url: 'https://api.chatwork.com/v1/rooms/' + room_id + '/messages',
                 method: 'POST',
                 headers: {
                   'X-ChatWorkToken': Token
@@ -113,7 +114,7 @@ var job = new myCron(
                     messageBody += list_num +", " + bentoo.text + " - " + bentoo.price + "円\n";     
                   })
                   var options = {
-                    url: 'https://api.chatwork.com/v1/rooms/27496495/messages',
+                    url: 'https://api.chatwork.com/v1/rooms/' + room_id + '/messages',
                     method: 'POST',
                     headers: {
                       'X-ChatWorkToken': Token
@@ -159,7 +160,7 @@ var job = new myCron(
                           var confirmText = "[To:" + item.account.account_id + "]" + bentoo.text + "で宜しいですか？(yes/no)";
                           //注文処理
                           var options = {
-                            url: 'https://api.chatwork.com/v1/rooms/27496495/messages',
+                            url: 'https://api.chatwork.com/v1/rooms/' + room_id + '/messages',
                             method: 'POST',
                             headers: {
                               'X-ChatWorkToken': Token
@@ -196,7 +197,7 @@ var job = new myCron(
                           //chatworkに送信
                           //注文処理
                           var options = {
-                            url: 'https://api.chatwork.com/v1/rooms/27496495/messages',
+                            url: 'https://api.chatwork.com/v1/rooms/' + room_id + '/messages',
                             method: 'POST',
                             headers: {
                               'X-ChatWorkToken': Token
@@ -240,7 +241,7 @@ var job = new myCron(
                   });
                   orderList += "\n@del {番号} で消すことができます。"
                   var options = {
-                    url: 'https://api.chatwork.com/v1/rooms/27496495/messages',
+                    url: 'https://api.chatwork.com/v1/rooms/' + room_id + '/messages',
                     method: 'POST',
                     headers: {
                       'X-ChatWorkToken': Token
@@ -298,7 +299,7 @@ var job = new myCron(
                               //message
                               var orderText = "[To:" + item.account.account_id + "]" + bentoo2.text + "を注文から削除しました。";
                               var options = {
-                                url: 'https://api.chatwork.com/v1/rooms/27496495/messages',
+                                url: 'https://api.chatwork.com/v1/rooms/' + room_id + '/messages',
                                 method: 'POST',
                                 headers: {
                                   'X-ChatWorkToken': Token
@@ -332,7 +333,7 @@ var job = new myCron(
                       //注文確定処理
                       var orderText = "[To:" + item.account.account_id + "]" + item.account.name + "さん、" + bentoo.text + "の注文を承りました。";
                       var options = {
-                        url: 'https://api.chatwork.com/v1/rooms/27496495/messages',
+                        url: 'https://api.chatwork.com/v1/rooms/' + room_id + '/messages',
                         method: 'POST',
                         headers: {
                           'X-ChatWorkToken': Token
@@ -404,7 +405,7 @@ var job = new myCron(
                 //@noは全てをキャンセルする。
                 var orderText = "まだ注文されていません。";
                 var options = {
-                  url: 'https://api.chatwork.com/v1/rooms/27496495/messages',
+                  url: 'https://api.chatwork.com/v1/rooms/' + room_id + '/messages',
                   method: 'POST',
                   headers: {
                     'X-ChatWorkToken': Token
@@ -450,7 +451,7 @@ var job = new myCron(
                 );
                 var orderText = "[To:" + item.account.account_id + "]" + "仮注文をクリアしました。注文をやり直してください。\n ※ 確定分はolコマンドで確認・削除してください。";
                 var options = {
-                  url: 'https://api.chatwork.com/v1/rooms/27496495/messages',
+                  url: 'https://api.chatwork.com/v1/rooms/' + room_id + '/messages',
                   method: 'POST',
                   headers: {
                     'X-ChatWorkToken': Token
